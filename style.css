@@ -1,0 +1,4 @@
+body { font-family: sans-serif; text-align: center; background: #f0f0f0; }
+.video-container { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
+video { width: 400px; height: 300px; background: black; border-radius: 10px; }
+#my-id { font-weight: bold; color: blue; }
