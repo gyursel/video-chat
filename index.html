@@ -1,22 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="bg">
 <head>
-    <title>Simple Video Chat</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velvet Live - Premium Video Chat</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 </head>
 <body>
-    <h2>Моят Видео Чат</h2>
-    
-    <div>
-        <p>Твоето ID: <span id="my-id">...</span></p>
-        <input type="text" id="remote-id" placeholder="Въведи ID на приятел">
-        <button id="call-btn">Обади се</button>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-badge">VL</div>
+        <div>
+          <div class="brand-title">Velvet Live</div>
+          <div class="brand-sub">Premium random video chat</div>
+        </div>
+      </div>
+
+      <div id="status" class="status-pill">Натисни Старт</div>
+    </header>
+
+    <div class="main-layout">
+      <div class="left-area">
+        <div class="top-buttons">
+          <button class="top-btn">Личен Чат</button>
+          <button class="top-btn">Добави Приятел</button>
+          <button class="top-btn">Подарък</button>
+          <button class="top-btn">Любими</button>
+          <button class="top-btn">Топ Модели</button>
+          <button class="top-btn">Открий</button>
+          <button class="top-btn">Профил</button>
+          <button class="top-btn">Настройки</button>
+        </div>
+
+        <div class="videos">
+          <div class="video-card">
+            <div class="video-card-top">
+              <div class="video-title-wrap">
+                <div class="live-dot"></div>
+                <div class="video-title">Ти (Аз)</div>
+              </div>
+              <div class="video-chip">HD</div>
+            </div>
+            <video id="localVideo" autoplay muted playsinline></video>
+          </div>
+
+          <div class="video-card">
+            <div class="video-card-top">
+              <div class="video-title-wrap">
+                <div class="live-dot"></div>
+                <div class="video-title">Непознат</div>
+              </div>
+              <div class="video-chip alt">Свързан</div>
+            </div>
+            <video id="remoteVideo" autoplay playsinline></video>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="startBtn">Старт</button>
+          <button id="nextBtn" disabled>Следващ (Свържи)</button>
+          <button id="muteBtn" disabled>Микрофон</button>
+          <button id="stopBtn" disabled>Стоп</button>
+        </div>
+      </div>
+
+      <aside class="chat-panel">
+        <div class="chat-header">
+          <div>
+            <div class="chat-title">Чат на живо</div>
+            <div id="sideStatus" class="chat-subtitle">Чакане за старт...</div>
+          </div>
+          <div class="chat-badge">Онлайн</div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-msg system">Добре дошли във Velvet Live.</div>
+          <div class="chat-msg system">Стартирайте камерата, за да започнете.</div>
+        </div>
+
+        <div class="chat-input-row">
+          <input type="text" id="chatInput" placeholder="Напиши съобщение..." />
+          <button id="sendBtn" type="button">Прати</button>
+        </div>
+      </aside>
     </div>
+  </div>
 
-    <div class="video-container">
-        <video id="local-video" autoplay muted></video> <video id="remote-video" autoplay></video> </div>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

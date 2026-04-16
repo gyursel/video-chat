@@ -1,30 +1,52 @@
-const peer = new Peer(); // Създаваме нова връзка
+const peer = new Peer();
 let localStream;
 
-// 1. Показваме твоето ID, когато се генерира
+const localVideo = document.getElementById('localVideo'); // от твоя нов HTML
+const remoteVideo = document.getElementById('remoteVideo');
+const startBtn = document.getElementById('startBtn');
+const callBtn = document.getElementById('nextBtn'); // Използваме Next за обаждане
+const statusDisplay = document.getElementById('status');
+const myIdDisplay = document.getElementById('sideStatus');
+
+// 1. Стартиране на камерата при натискане на Start
+startBtn.addEventListener('click', async () => {
+    try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        localVideo.srcObject = localStream;
+        statusDisplay.innerText = "Camera Active";
+        startBtn.disabled = true;
+        callBtn.disabled = false;
+        document.getElementById('stopBtn').disabled = false;
+    } catch (err) {
+        console.error("Грешка с камерата:", err);
+        alert("Моля, разрешете достъп до камерата.");
+    }
+});
+
+// 2. Генериране на ID
 peer.on('open', (id) => {
-    document.getElementById('my-id').innerText = id;
+    myIdDisplay.innerText = "Your ID: " + id;
+    console.log("My peer ID is: " + id);
 });
 
-// 2. Пускаме твоята камера
-navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
-    localStream = stream;
-    document.getElementById('local-video').srcObject = stream;
-});
-
-// 3. Когато някой ти звънне - отговори
+// 3. Приемане на обаждане
 peer.on('call', (call) => {
-    call.answer(localStream); // Изпрати твоето видео
+    call.answer(localStream);
     call.on('stream', (remoteStream) => {
-        document.getElementById('remote-video').srcObject = remoteStream;
+        remoteVideo.srcObject = remoteStream;
+        statusDisplay.innerText = "Connected!";
     });
 });
 
-// 4. Когато ти звъннеш на някого
-document.getElementById('call-btn').addEventListener('click', () => {
-    const remoteId = document.getElementById('remote-id').value;
-    const call = peer.call(remoteId, localStream);
-    call.on('stream', (remoteStream) => {
-        document.getElementById('remote-video').srcObject = remoteStream;
-    });
+// 4. Функцията за бутона Next (Обаждане)
+callBtn.addEventListener('click', () => {
+    const remoteId = prompt("Въведи ID на партньора:");
+    if (remoteId) {
+        const call = peer.call(remoteId, localStream);
+        statusDisplay.innerText = "Calling...";
+        call.on('stream', (remoteStream) => {
+            remoteVideo.srcObject = remoteStream;
+            statusDisplay.innerText = "Connected!";
+        });
+    }
 });
